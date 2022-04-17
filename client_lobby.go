@@ -76,3 +76,15 @@ func (d *Dota2) ClearTeamFromLobby() {
 		&gcm.CMsgFlipLobbyTeams{},
 	)
 }
+
+// Respond to lobby invite
+func (d *Dota2) RespondToLobbyInvite(accept bool, lobbyId *uint64) {
+	acceptVar := accept
+	d.write(
+		uint32(gcm.EGCBaseMsg_k_EMsgGCLobbyInviteResponse),
+		&gcm.CMsgLobbyInviteResponse{
+			Accept:  &acceptVar,
+			LobbyId: lobbyId,
+		},
+	)
+}
