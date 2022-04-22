@@ -1,8 +1,11 @@
 package dota2
 
 import (
-	gcmcc "github.com/paralin/go-dota2/protocol"
 	gcm "github.com/paralin/go-dota2/protocol"
+	gcmcc "github.com/paralin/go-dota2/protocol"
+
+	"context"
+	"fmt"
 )
 
 // SendChannelMessage attempts to send a message in a channel, text-only.
@@ -12,4 +15,8 @@ func (d *Dota2) SendChannelMessage(channelID uint64, message string) {
 		ChannelId: &channelID,
 		Text:      &message,
 	})
+}
+
+func (d *Dota2) JoinLobbyChat(ctx context.Context, lobby *gcm.CSODOTALobby) (*gcm.CMsgDOTAJoinChatChannelResponse, error) {
+	return d.JoinChatChannel(ctx, fmt.Sprintf("Lobby_%d", *lobby.LobbyId), gcm.DOTAChatChannelTypeT_DOTAChannelType_Lobby, true)
 }
